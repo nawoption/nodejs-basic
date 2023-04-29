@@ -2,11 +2,13 @@ require("dotenv").config();
 var path = require("path");
 var express = require("express");
 var fileupload = require("express-fileupload");
+var cors = require("cors");
 
 const app = express();
 app.use(express.json());
 app.use(fileupload());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(cors({ origin: true }));
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
@@ -19,13 +21,13 @@ const postRoute = require("./routes/postRoute");
 const commentRouter = require("./routes/commentRoute");
 
 app.use("/users", userRoute);
-app.use("/tags",tagRoute);
+app.use("/tags", tagRoute);
 app.use("/category", categoryRoute);
 app.use("/posts", postRoute);
-app.use("/comments",commentRouter);
-app.use("/",(req,res,next)=>{
-  res.json({msg:"hello world"})
-})
+app.use("/comments", commentRouter);
+app.use("/", (req, res, next) => {
+  res.json({ msg: "hello world" });
+});
 
 app.use((err, req, res, next) => {
   err.status = err.status || 200;
