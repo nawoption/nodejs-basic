@@ -25,9 +25,7 @@ app.use("/tags", tagRoute);
 app.use("/category", categoryRoute);
 app.use("/posts", postRoute);
 app.use("/comments", commentRouter);
-app.use("/", (req, res, next) => {
-  res.json({ msg: "hello world" });
-});
+
 
 app.use((err, req, res, next) => {
   err.status = err.status || 200;
